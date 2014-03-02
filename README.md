@@ -2,6 +2,10 @@
 
 A Dynmap add-on to display [TARDIS](http://dev.bukkit.org/bukkit-plugins/tardis/) locations on a Bukkit server.
 
+###Requirements
+* TARDIS version 2.8-beta-1 build #654 or higher
+* Dynmap (Dynmap-TARDIS was compiled against Dynmap 1.9.2)
+
 ###Installation
 
 1. Install Dynmap as per the instructions found on the [Dynmap](http://dev.bukkit.org/bukkit-plugins/dynmap/) page. Run the server once to generate the default Dynmap files and folders.

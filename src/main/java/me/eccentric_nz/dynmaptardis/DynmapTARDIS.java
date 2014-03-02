@@ -2,7 +2,7 @@ package me.eccentric_nz.dynmaptardis;
 
 import java.util.HashMap;
 import java.util.Map;
-import me.eccentric_nz.TARDIS.TARDII;
+import me.eccentric_nz.TARDIS.api.TARDII;
 import me.eccentric_nz.TARDIS.TARDIS;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
