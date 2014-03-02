@@ -1,0 +1,14 @@
+##Dynmap-TARDIS
+
+A Dynmap add-on to display [TARDIS](http://dev.bukkit.org/bukkit-plugins/tardis/) locations on a Bukkit server.
+
+###Installation
+
+1. Install Dynmap as per the instructions found on the [Dynmap](http://dev.bukkit.org/bukkit-plugins/dynmap/) page. Run the server once to generate the default Dynmap files and folders.
+2. Drop the Dynmap-TARDIS.jar file in the server plugins folder.
+3. Put the tardis.png icon file into the `plugins/dynmap/web/tiles/_markers_/` folder.
+4. Run the command `/dmarker addicon id:tardis newlabel:tardis file:plugins/dynmap/web/tiles/_markers_/tardis.png`
+5. Stop and start the server.
+6. Render the map.
+
+![image](https://dl.dropboxusercontent.com/u/53758864/dynmap-tardis.jpg)
