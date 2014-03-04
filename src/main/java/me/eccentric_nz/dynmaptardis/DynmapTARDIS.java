@@ -2,8 +2,8 @@ package me.eccentric_nz.dynmaptardis;
 
 import java.util.HashMap;
 import java.util.Map;
-import me.eccentric_nz.TARDIS.api.TARDII;
 import me.eccentric_nz.TARDIS.TARDIS;
+import me.eccentric_nz.TARDIS.api.TARDII;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -153,7 +153,7 @@ public class DynmapTARDIS extends JavaPlugin {
             System.err.println("Error loading Dynmap marker API!");
             return;
         }
-        /* Now, get TARDIS Warp API */
+        /* Now, get TARDIS API */
         TARDII = TARDIS.getTARDII();
 
         /* If not found, signal disabled */
