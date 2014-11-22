@@ -3,7 +3,7 @@ package me.eccentric_nz.dynmaptardis;
 import java.util.HashMap;
 import java.util.Map;
 import me.eccentric_nz.TARDIS.TARDIS;
-import me.eccentric_nz.TARDIS.api.TARDII;
+import me.eccentric_nz.TARDIS.api.TardisAPI;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,8 +23,8 @@ public class DynmapTARDIS extends JavaPlugin {
     Plugin dynmap;
     DynmapAPI api;
     MarkerAPI markerapi;
-    TARDII TARDII;
-    TARDIS TARDIS;
+    TardisAPI tardisapi;
+    TARDIS tardis;
     private Layer tardisLayer;
     boolean reload = false;
     boolean stop;
@@ -118,16 +118,16 @@ public class DynmapTARDIS extends JavaPlugin {
         }
         /* Get API */
         api = (DynmapAPI) dynmap;
-        /* Get TARDIS */
+        /* Get tardis */
         Plugin p = pm.getPlugin("TARDIS");
         if (p == null) {
             System.err.println("Cannot find TARDIS!");
             return;
         }
-        TARDIS = (TARDIS) p;
+        tardis = (TARDIS) p;
         getServer().getPluginManager().registerEvents(new OurServerListener(), this);
         /* If both enabled, activate */
-        if (dynmap.isEnabled() && TARDIS.isEnabled()) {
+        if (dynmap.isEnabled() && tardis.isEnabled()) {
             activate();
         }
     }
@@ -139,7 +139,7 @@ public class DynmapTARDIS extends JavaPlugin {
             Plugin p = event.getPlugin();
             String name = p.getDescription().getName();
             if (name.equals("dynmap") || name.equals("TARDIS")) {
-                if (dynmap.isEnabled() && TARDIS.isEnabled()) {
+                if (dynmap.isEnabled() && tardis.isEnabled()) {
                     activate();
                 }
             }
@@ -153,11 +153,11 @@ public class DynmapTARDIS extends JavaPlugin {
             System.err.println("Error loading Dynmap marker API!");
             return;
         }
-        /* Now, get TARDIS API */
-        TARDII = TARDIS.getTARDII();
+        /* Now, get tardis API */
+        tardisapi = tardis.getTardisAPI();
 
         /* If not found, signal disabled */
-        if (TARDII == null) {
+        if (tardisapi == null) {
             System.out.println("TARDIS not found - support disabled");
         }
         /* Load configuration */
@@ -172,8 +172,8 @@ public class DynmapTARDIS extends JavaPlugin {
         } else {
             reload = true;
         }
-        /* Now, add marker set for TARDII */
-        if (TARDII != null) {
+        /* Now, add marker set for TardisAPI */
+        if (tardisapi != null) {
             tardisLayer = new TARDISLayer();
         }
         /* Set up update job - based on period */
@@ -192,12 +192,12 @@ public class DynmapTARDIS extends JavaPlugin {
         @Override
         public Map<String, Location> getMarkers() {
             HashMap<String, Location> map = new HashMap<String, Location>();
-            if (TARDII != null) {
-                HashMap<String, Integer> tl = TARDII.getTimelords();
+            if (tardisapi != null) {
+                HashMap<String, Integer> tl = tardisapi.getTimelordMap();
                 for (Map.Entry<String, Integer> lords : tl.entrySet()) {
                     Location loc;
                     try {
-                        loc = TARDII.getLocation(lords.getValue());
+                        loc = tardisapi.getTARDISCurrentLocation(lords.getValue());
                         if (loc != null) {
                             map.put(lords.getKey(), loc);
                         }
@@ -220,7 +220,7 @@ public class DynmapTARDIS extends JavaPlugin {
     }
 
     private void updateMarkers() {
-        if (TARDII != null) {
+        if (tardisapi != null) {
             tardisLayer.updateMarkerSet();
         }
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 100L);
