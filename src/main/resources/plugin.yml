@@ -1,7 +1,7 @@
 author: eccentric_nz
 description: A Dynmap add-on to show TARDIS locations
 main: me.eccentric_nz.dynmaptardis.DynmapTARDIS
-name: DynMapTardis
+name: Dynmap-TARDIS
 load: POSTWORLD
 version: '1.1'
 website: http://dev.bukkit.org/bukkit-plugins/tardis
