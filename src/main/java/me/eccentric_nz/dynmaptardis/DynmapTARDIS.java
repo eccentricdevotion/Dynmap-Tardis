@@ -179,7 +179,7 @@ public class DynmapTARDIS extends JavaPlugin {
         /* Set up update job - based on period */
         stop = false;
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 5 * 20);
-        System.out.println("version " + this.getDescription().getVersion() + " is activated");
+        //System.out.println("version " + this.getDescription().getVersion() + " is activated");
     }
 
     private class TARDISLayer extends Layer {
