@@ -29,7 +29,7 @@ public class DynmapTARDIS extends JavaPlugin {
     private Layer tardisLayer;
     boolean reload = false;
     boolean stop;
-    private static final String info = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%</div></div>";
+    private static final String info = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
 
     @Override
     public void onDisable() {
@@ -286,6 +286,15 @@ public class DynmapTARDIS extends JavaPlugin {
         window = window.replace("%location%", l);
         window = window.replace("%powered%", data.getPowered());
         window = window.replace("%siege%", data.getSiege());
+        String travellers = "";
+        if (data.getOccupants().size() > 0) {
+            for (String o : data.getOccupants()) {
+                travellers += o + "<br />";
+            }
+        } else {
+            travellers = "Empty";
+        }
+        window = window.replace("%occupants%", travellers);
         return window;
     }
 }
