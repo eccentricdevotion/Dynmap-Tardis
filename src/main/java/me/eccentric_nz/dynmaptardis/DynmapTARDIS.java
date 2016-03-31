@@ -20,7 +20,6 @@ import org.dynmap.markers.MarkerSet;
 
 public class DynmapTARDIS extends JavaPlugin {
 
-    public String pluginName;
     Plugin dynmap;
     DynmapAPI api;
     MarkerAPI markerapi;
