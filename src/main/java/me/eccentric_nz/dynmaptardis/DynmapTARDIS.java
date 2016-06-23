@@ -28,7 +28,7 @@ public class DynmapTARDIS extends JavaPlugin {
     private Layer tardisLayer;
     boolean reload = false;
     boolean stop;
-    private static final String info = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
+    private static final String INFO = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
 
     @Override
     public void onDisable() {
@@ -72,7 +72,8 @@ public class DynmapTARDIS extends JavaPlugin {
         }
 
         void updateMarkerSet() {
-            Map<String, Marker> newmap = new HashMap<String, Marker>(); /*
+            Map<String, Marker> newmap = new HashMap<String, Marker>();
+            /*
              * Build new map
              */
 
@@ -107,10 +108,11 @@ public class DynmapTARDIS extends JavaPlugin {
                  */
                 String desc = formatInfoWindow(name, marks.get(name), m);
 
-                m.setDescription(desc); /*
+                m.setDescription(desc);
+                /*
                  * Set popup
                  */
-                /*
+ /*
                  * Add to new map
                  */
 
@@ -128,6 +130,7 @@ public class DynmapTARDIS extends JavaPlugin {
             markers.clear();
             markers = newmap;
         }
+
         /*
          * Get current markers, by ID with location
          */
@@ -235,6 +238,7 @@ public class DynmapTARDIS extends JavaPlugin {
         public TARDISLayer() {
             super();
         }
+
         /*
          * Get current markers, by timelord with location
          */
@@ -277,7 +281,7 @@ public class DynmapTARDIS extends JavaPlugin {
     }
 
     private String formatInfoWindow(String who, TARDISData data, Marker m) {
-        String window = info;
+        String window = INFO;
         window = window.replace("%owner%", who);
         window = window.replace("%console%", data.getConsole());
         window = window.replace("%chameleon%", data.getChameleon());

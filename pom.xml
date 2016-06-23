@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.9.2-R0.1-SNAPSHOT</version>
+            <version>1.10-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
             <exclusions>
@@ -95,7 +95,7 @@
         <dependency>
             <groupId>me.eccentric_nz.TARDIS</groupId>
             <artifactId>TARDIS</artifactId>
-            <version>3.5</version>
+            <version>3.5.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>GriefPrevention</artifactId>
@@ -122,20 +122,12 @@
                     <groupId>com.onarandombox.multiverseinventories</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>Project_Rassilon</artifactId>
-                    <groupId>net.pekkit</groupId>
-                </exclusion>
-                <exclusion>
                     <artifactId>ProtocolLib</artifactId>
                     <groupId>com.comphenix.protocol</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>TARDISChunkGenerator</artifactId>
                     <groupId>me.eccentric_nz.tardischunkgenerator</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>TARDISHorseSpeed</artifactId>
-                    <groupId>me.eccentric_nz.tardishorsespeed</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>Towny</artifactId>
@@ -174,20 +166,12 @@
                     <groupId>com.sk89q</groupId>
                 </exclusion>
                 <exclusion>
-                    <artifactId>BarAPI</artifactId>
-                    <groupId>me.confuser</groupId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.massivecraft</groupId>
                     <artifactId>massivecore</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.swinglabs</groupId>
                     <artifactId>swing-layout</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>me.eccentric_nz.tardishelper</groupId>
-                    <artifactId>TARDISHelper</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
