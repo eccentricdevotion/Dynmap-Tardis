@@ -44,7 +44,7 @@ public class DynmapTARDIS extends JavaPlugin {
         MarkerSet set;
         MarkerIcon deficon;
         String labelfmt;
-        Map<String, Marker> markers = new HashMap<String, Marker>();
+        Map<String, Marker> markers = new HashMap<>();
 
         public Layer() {
             set = markerapi.getMarkerSet("tardis");
@@ -72,13 +72,13 @@ public class DynmapTARDIS extends JavaPlugin {
         }
 
         void updateMarkerSet() {
-            Map<String, Marker> newmap = new HashMap<String, Marker>();
+            Map<String, Marker> newmap = new HashMap<>();
             /*
              * Build new map
              */
 
             Map<String, TARDISData> marks = getMarkers();
-            for (String name : marks.keySet()) {
+            marks.keySet().forEach((name) -> {
                 Location loc = marks.get(name).getLocation();
                 String wname = loc.getWorld().getName();
                 /*
@@ -117,13 +117,13 @@ public class DynmapTARDIS extends JavaPlugin {
                  */
 
                 newmap.put(id, m);
-            }
+            });
             /*
              * Now, review old map - anything left is gone
              */
-            for (Marker oldm : markers.values()) {
+            markers.values().forEach((oldm) -> {
                 oldm.deleteMarker();
-            }
+            });
             /*
              * And replace with new map
              */
@@ -134,7 +134,6 @@ public class DynmapTARDIS extends JavaPlugin {
         /*
          * Get current markers, by ID with location
          */
-
         public abstract Map<String, TARDISData> getMarkers();
     }
 
@@ -242,13 +241,12 @@ public class DynmapTARDIS extends JavaPlugin {
         /*
          * Get current markers, by timelord with location
          */
-
         @Override
         public Map<String, TARDISData> getMarkers() {
-            HashMap<String, TARDISData> map = new HashMap<String, TARDISData>();
+            HashMap<String, TARDISData> map = new HashMap<>();
             if (tardisapi != null) {
                 HashMap<String, Integer> tl = tardisapi.getTimelordMap();
-                for (Map.Entry<String, Integer> lords : tl.entrySet()) {
+                tl.entrySet().forEach((lords) -> {
                     TARDISData data;
                     try {
                         data = tardisapi.getTARDISMapData(lords.getValue());
@@ -257,7 +255,7 @@ public class DynmapTARDIS extends JavaPlugin {
                         }
                     } catch (Exception x) {
                     }
-                }
+                });
             }
             return map;
         }
