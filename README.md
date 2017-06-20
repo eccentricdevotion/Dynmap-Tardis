@@ -15,4 +15,4 @@ A Dynmap add-on to display [TARDIS](http://dev.bukkit.org/bukkit-plugins/tardis/
 5. Stop and start the server.
 6. Render the map.
 
-![image](https://www.dropbox.com/s/8eyzfh0b149ljw4/dynmap-tardis.jpg?dl=1)
+![image](https://www.dropbox.com/s/u15vbwmk137hgkn/dynmap-tardis-info.jpg?dl=1)
