@@ -27,3 +27,4 @@ CVS
 nb-configuration.xml
 
 .idea/
+*.iml

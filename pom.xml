@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.eccentric_nz.dynmaptardis</groupId>
     <artifactId>Dynmap-TARDIS</artifactId>
-    <version>1.2.2</version>
+    <version>1.3</version>
     <name>Dynmap-TARDIS</name>
     <repositories>
         <repository>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12-R0.1-SNAPSHOT</version>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
             <exclusions>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>me.eccentric_nz.TARDIS</groupId>
             <artifactId>TARDIS</artifactId>
-            <version>3.8-beta-1</version>
+            <version>4.0.2</version>
             <exclusions>
                 <exclusion>
                     <artifactId>GriefPrevention</artifactId>
@@ -150,10 +150,6 @@
                 <exclusion>
                     <artifactId>lockette</artifactId>
                     <groupId>org.yi.acru.bukkit</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>lwc</artifactId>
-                    <groupId>com.griefcraft</groupId>
                 </exclusion>
                 <exclusion>
                     <artifactId>mcore</artifactId>
