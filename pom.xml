@@ -10,10 +10,6 @@
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <repository>
-            <id>macgeek</id>
-            <url>http://tardisjenkins.duckdns.org:8888</url>
-        </repository>
-        <repository>
             <id>Bromley Massive</id>
             <url>http://tardisjenkins.duckdns.org:8080/plugin/repository/everything/</url>
         </repository>
@@ -49,7 +45,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.13-R0.1-SNAPSHOT</version>
+            <version>1.13.1-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
             <exclusions>
@@ -97,7 +93,7 @@
         <dependency>
             <groupId>me.eccentric_nz.TARDIS</groupId>
             <artifactId>TARDIS</artifactId>
-            <version>4.0.2</version>
+            <version>4.0.3</version>
             <exclusions>
                 <exclusion>
                     <artifactId>GriefPrevention</artifactId>
