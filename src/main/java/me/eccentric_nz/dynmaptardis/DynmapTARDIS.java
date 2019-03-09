@@ -2,9 +2,12 @@ package me.eccentric_nz.dynmaptardis;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+
 import me.eccentric_nz.TARDIS.TARDIS;
 import me.eccentric_nz.TARDIS.api.TARDISData;
 import me.eccentric_nz.TARDIS.api.TardisAPI;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,7 +31,7 @@ public class DynmapTARDIS extends JavaPlugin {
     private Layer tardisLayer;
     boolean reload = false;
     boolean stop;
-    private static final String INFO = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
+    private static final String INFO = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Door:</span> %door%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
 
     @Override
     public void onDisable() {
@@ -54,7 +57,7 @@ public class DynmapTARDIS extends JavaPlugin {
                 set.setMarkerSetLabel("TARDISes");
             }
             if (set == null) {
-                System.err.println("Error creating tardis marker set");
+                Bukkit.getLogger().log(Level.WARNING, "Error creating tardis marker set");
                 return;
             }
             set.setLayerPriority(0);
@@ -145,7 +148,7 @@ public class DynmapTARDIS extends JavaPlugin {
          */
         dynmap = pm.getPlugin("dynmap");
         if (dynmap == null) {
-            System.err.println("Cannot find dynmap!");
+            Bukkit.getLogger().log(Level.WARNING, "Cannot find dynmap!");
             return;
         }
         /*
@@ -157,7 +160,7 @@ public class DynmapTARDIS extends JavaPlugin {
          */
         Plugin p = pm.getPlugin("TARDIS");
         if (p == null) {
-            System.err.println("Cannot find TARDIS!");
+            Bukkit.getLogger().log(Level.WARNING, "Cannot find TARDIS!");
             return;
         }
         tardis = (TARDIS) p;
@@ -190,7 +193,7 @@ public class DynmapTARDIS extends JavaPlugin {
          */
         markerapi = api.getMarkerAPI();
         if (markerapi == null) {
-            System.err.println("Error loading Dynmap marker API!");
+            Bukkit.getLogger().log(Level.WARNING, "Error loading Dynmap marker API!");
             return;
         }
         /*
@@ -202,7 +205,7 @@ public class DynmapTARDIS extends JavaPlugin {
          * If not found, signal disabled
          */
         if (tardisapi == null) {
-            System.out.println("TARDIS not found - support disabled");
+            Bukkit.getLogger().log(Level.WARNING, "TARDIS not found - support disabled");
         }
         /*
          * Load configuration
@@ -229,7 +232,7 @@ public class DynmapTARDIS extends JavaPlugin {
          */
         stop = false;
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 5 * 20);
-        //System.out.println("version " + this.getDescription().getVersion() + " is activated");
+        //Bukkit.getLogger().log(Level.INFO, "version " + this.getDescription().getVersion() + " is activated");
     }
 
     private class TARDISLayer extends Layer {
@@ -286,6 +289,7 @@ public class DynmapTARDIS extends JavaPlugin {
         String l = "x: " + data.getLocation().getBlockX() + ", y: " + data.getLocation().getBlockY() + ", z: " + data.getLocation().getBlockZ();
         window = window.replace("%location%", l);
         window = window.replace("%powered%", data.getPowered());
+        window = window.replace("%door%", data.getDoor());
         window = window.replace("%siege%", data.getSiege());
         String travellers = "";
         if (data.getOccupants().size() > 0) {
