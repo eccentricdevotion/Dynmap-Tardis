@@ -45,129 +45,21 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14-pre5-SNAPSHOT</version>
+            <version>1.14.4-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.avaje</groupId>
-                    <artifactId>ebean</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.googlecode.json-simple</groupId>
-                    <artifactId>json-simple</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>snakeyaml</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-lang</groupId>
-                    <artifactId>commons-lang</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.dynmap</groupId>
             <artifactId>dynmap-api</artifactId>
-            <version>3.0-beta-3</version>
+            <version>3.0-beta-4</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/dynmap-api-3.0-beta-3.jar</systemPath>
+            <systemPath>${basedir}/lib/dynmap-api-3.0-beta-4.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.eccentric_nz.TARDIS</groupId>
             <artifactId>TARDIS</artifactId>
             <version>4.1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>GriefPrevention</artifactId>
-                    <groupId>me.ryanhamshire</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>LibsDisguises</artifactId>
-                    <groupId>LibsDisguises</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>MultiWorld</artifactId>
-                    <groupId>multiworld</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>Multiverse-Adventure</artifactId>
-                    <groupId>com.onarandombox.multiverseadventure</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>Multiverse-Core</artifactId>
-                    <groupId>com.onarandombox.multiversecore</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>Multiverse-Inventories</artifactId>
-                    <groupId>com.onarandombox.multiverseinventories</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>ProtocolLib</artifactId>
-                    <groupId>com.comphenix.protocol</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>TARDISChunkGenerator</artifactId>
-                    <groupId>me.eccentric_nz.tardischunkgenerator</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>Towny</artifactId>
-                    <groupId>com.palmergames.bukkit</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>WorldBorder</artifactId>
-                    <groupId>com.wimbli.WorldBorder</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>citizensapi</artifactId>
-                    <groupId>net.citizensnpcs</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>factions</artifactId>
-                    <groupId>com.massivecraft</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>lockette</artifactId>
-                    <groupId>org.yi.acru.bukkit</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mcore</artifactId>
-                    <groupId>com.massivecraft</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>worldedit</artifactId>
-                    <groupId>com.sk89q</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>worldguard</artifactId>
-                    <groupId>com.sk89q</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.massivecraft</groupId>
-                    <artifactId>massivecore</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.swinglabs</groupId>
-                    <artifactId>swing-layout</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 </project>
