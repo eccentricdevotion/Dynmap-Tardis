@@ -45,21 +45,21 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.14.4-R0.1-SNAPSHOT</version>
+            <version>1.15-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.dynmap</groupId>
             <artifactId>dynmap-api</artifactId>
-            <version>3.0-beta-4</version>
+            <version>3.0-beta-6</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/dynmap-api-3.0-beta-4.jar</systemPath>
+            <systemPath>${basedir}/lib/dynmap-api-3.0-beta-6.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>me.eccentric_nz.TARDIS</groupId>
             <artifactId>TARDIS</artifactId>
-            <version>4.1.0</version>
+            <version>4.3</version>
         </dependency>
     </dependencies>
 </project>
