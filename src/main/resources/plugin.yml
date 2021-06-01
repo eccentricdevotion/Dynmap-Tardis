@@ -8,4 +8,4 @@ api-version: 1.16
 website: http://tardisjenkins.duckdns.org:8080/job/Dynmap-TARDIS/
 dev-url: http://github.com/eccentricdevotion/Dynmap-Tardis/
 url: http://eccentricdevotion.github.io/TARDIS/
-depend: [ dynmap,TARDIS ]
+depend: [dynmap,TARDIS]

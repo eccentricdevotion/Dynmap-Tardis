@@ -4,16 +4,37 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.eccentric_nz.dynmaptardis</groupId>
 	<artifactId>Dynmap-TARDIS</artifactId>
-	<version>1.3.3-SNAPSHOT</version>
+	<version>1.3.3</version>
+	<packaging>jar</packaging>
 	<name>Dynmap-TARDIS</name>
 	<description>A Dynmap add-on to display TARDIS locations on Spigot/Paper servers</description>
 	<url>https://github.com/eccentricdevotion/Dynmap-Tardis</url>
+	<inceptionYear>2014</inceptionYear>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>16</maven.compiler.source>
 		<maven.compiler.target>16</maven.compiler.target>
 		<java.version>16</java.version>
 	</properties>
+	<licenses>
+		<license>
+			<name>GNU General Public License v3.0</name>
+			<url>https://github.com/eccentricdevotion/Dynmap-Tardis/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>https://github.com/eccentricdevotion/Dynmap-Tardis/issues</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:git:ssh://github.com/eccentricdevotion/Dynmap-TARDIS</connection>
+		<developerConnection>scm:git:ssh://github.com/eccentricdevotion/Dynmap-TARDIS</developerConnection>
+	</scm>
+	<ciManagement>
+		<system>Jenkins</system>
+		<url>http://tardisjenkins.duckdns.org:8080</url>
+	</ciManagement>
 	<repositories>
 		<repository>
 			<id>spigot-repo</id>
@@ -28,8 +49,8 @@
 			<url>http://tardisjenkins.duckdns.org:8080/plugin/repository/everything/</url>
 		</repository>
 		<repository>
-			<id>dynmap-repo</id>
-			<url>https://repo.mikeprimm.com/</url>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 	</repositories>
 	<profiles>
@@ -37,13 +58,11 @@
 		<profile>
 			<id>local</id>
 			<activation>
-				<property>
-					<name>!env.BUILD_NUMBER</name>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<!-- Set the build number to the date and time of the build -->
-				<project.buildNumber>${timestamp}</project.buildNumber>
+				<build.number>${timestamp}</build.number>
 			</properties>
 			<build>
 				<plugins>
@@ -56,11 +75,14 @@
 						</configuration>
 						<executions>
 							<execution>
-								<id>buildnumber</id>
+								<id>create-timestamp-id</id>
 								<phase>validate</phase>
 								<goals>
-									<goal>create</goal>
+									<goal>create-timestamp</goal>
 								</goals>
+								<configuration>
+									<timestampFormat>yyyy.MM.dd-HH.mm.ss</timestampFormat>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -76,11 +98,12 @@
 			</activation>
 			<properties>
 				<!-- Get the build number from Jenkins -->
-				<project.buildNumber>${env.BUILD_NUMBER}</project.buildNumber>
+				<build.number>${env.BUILD_NUMBER}</build.number>
 			</properties>
 			<build>
 				<plugins>
 					<plugin>
+						<!-- Attach Javadocs -->
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>3.3.0</version>
@@ -102,7 +125,8 @@
 		</profile>
 	</profiles>
 	<build>
-		<finalName>${project.artifactId}-${project.version}-${project.buildNumber}</finalName>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+		<defaultGoal>clean package install</defaultGoal>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -122,20 +146,33 @@
 			<artifactId>spigot-api</artifactId>
 			<version>1.16.5-R0.1-SNAPSHOT</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.gson</groupId>
+					<artifactId>gson</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>me.eccentric_nz.tardis</groupId>
 			<artifactId>TARDIS</artifactId>
-			<version>4.6.2-SNAPSHOT</version>
+			<version>4.6.2</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.dynmap</groupId>
+			<groupId>com.github.webbukkit.dynmap</groupId>
 			<artifactId>dynmap-api</artifactId>
-			<version>2.0</version>
+			<version>v3.1-beta-7</version>
+			<type>jar</type>
 			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

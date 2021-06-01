@@ -133,7 +133,8 @@ public class TARDISDynmapPlugin extends JavaPlugin {
 		window = window.replace("%owner%", who);
 		window = window.replace("%console%", data.getConsole());
 		window = window.replace("%chameleon%", data.getChameleon());
-		String l = "x: " + data.getLocation().getBlockX() + ", y: " + data.getLocation().getBlockY() + ", z: " + data.getLocation().getBlockZ();
+		String l = "x: " + data.getLocation().getBlockX() + ", y: " + data.getLocation().getBlockY() + ", z: " +
+				   data.getLocation().getBlockZ();
 		window = window.replace("%location%", l);
 		window = window.replace("%powered%", data.getPowered());
 		window = window.replace("%door%", data.getDoor());
