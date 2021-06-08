@@ -1,11 +1,11 @@
-author: eccentric_nz
-description: A Dynmap add-on to show TARDIS locations
+authors: [eccentric_nz]
 main: me.eccentric_nz.dynmaptardis.DynmapTARDIS
 name: Dynmap-TARDIS
-load: POSTWORLD
+description: A Dynmap add-on to show TARDIS locations
 version: 1.3.3
 api-version: 1.16
 website: http://tardisjenkins.duckdns.org:8080/job/Dynmap-TARDIS/
 dev-url: http://github.com/eccentricdevotion/Dynmap-Tardis/
 url: http://eccentricdevotion.github.io/TARDIS/
+load: POSTWORLD
 depend: [dynmap,TARDIS]

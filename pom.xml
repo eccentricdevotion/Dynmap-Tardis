@@ -146,7 +146,7 @@
 			<artifactId>spigot-api</artifactId>
 			<version>1.16.5-R0.1-SNAPSHOT</version>
 			<type>jar</type>
-			<scope>provided</scope>
+			<scope>compile</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.code.gson</groupId>
@@ -157,9 +157,16 @@
 		<dependency>
 			<groupId>me.eccentric_nz.tardis</groupId>
 			<artifactId>TARDIS</artifactId>
-			<version>4.6.2</version>
+			<version>4.6.3</version>
 			<type>jar</type>
-			<scope>provided</scope>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>me.eccentric_nz.tardischunkgenerator</groupId>
+			<artifactId>TARDISChunkGenerator</artifactId>
+			<version>4.6.3</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.webbukkit.dynmap</groupId>
