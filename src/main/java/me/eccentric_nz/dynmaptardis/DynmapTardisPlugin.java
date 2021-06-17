@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2021 eccentric_nz
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 package me.eccentric_nz.dynmaptardis;
 
 import me.eccentric_nz.tardis.TARDISPlugin;
@@ -19,11 +35,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 
-public class TARDISDynmapPlugin extends JavaPlugin {
+public class DynmapTardisPlugin extends JavaPlugin {
 
     private static final String INFO = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Door:</span> %door%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
     private Plugin dynmap;
-    private DynmapAPI api;
+    private DynmapAPI dynmapApi;
     private MarkerAPI markerApi;
     private TARDISAPI tardisApi;
     private TARDISPlugin tardis;
@@ -52,9 +68,9 @@ public class TARDISDynmapPlugin extends JavaPlugin {
             return;
         }
         /*
-         * Get API
+         * Get dynmap API
          */
-        api = (DynmapAPI) dynmap;
+        dynmapApi = (DynmapAPI) dynmap;
         /*
          * Get tardis
          */
@@ -77,7 +93,7 @@ public class TARDISDynmapPlugin extends JavaPlugin {
         /*
          * Now, get markers API
          */
-        markerApi = api.getMarkerAPI();
+        markerApi = dynmapApi.getMarkerAPI();
         if (markerApi == null) {
             Bukkit.getLogger().log(Level.WARNING, "Error loading Dynmap marker API!");
             return;
@@ -153,8 +169,8 @@ public class TARDISDynmapPlugin extends JavaPlugin {
     private abstract class Layer {
 
         MarkerSet set;
-        MarkerIcon deficon;
-        String labelfmt;
+        MarkerIcon defaultIcon;
+        String labelFormat;
         Map<String, Marker> markers = new HashMap<>();
 
         public Layer() {
@@ -170,8 +186,8 @@ public class TARDISDynmapPlugin extends JavaPlugin {
             }
             set.setLayerPriority(0);
             set.setHideByDefault(false);
-            deficon = markerApi.getMarkerIcon("tardis");
-            labelfmt = "%name% (TARDIS)";
+            defaultIcon = markerApi.getMarkerIcon("tardis");
+            labelFormat = "%name% (TARDIS)";
         }
 
         void cleanup() {
@@ -183,58 +199,58 @@ public class TARDISDynmapPlugin extends JavaPlugin {
         }
 
         void updateMarkerSet() {
-            Map<String, Marker> newmap = new HashMap<>();
+            Map<String, Marker> newMap = new HashMap<>();
             /*
              * Build new map
              */
-            Map<String, TARDISData> marks = getMarkers();
-            marks.keySet().forEach((name) -> {
-                Location loc = marks.get(name).getLocation();
-                String wname = Objects.requireNonNull(loc.getWorld()).getName();
+            Map<String, TARDISData> markers = getMarkers();
+            markers.keySet().forEach((name) -> {
+                Location loc = markers.get(name).getLocation();
+                String worldName = Objects.requireNonNull(loc.getWorld()).getName();
                 /*
                  * Get location
                  */
-                String id = wname + "/" + name;
-                String label = labelfmt.replace("%name%", name);
+                String id = worldName + "/" + name;
+                String label = labelFormat.replace("%name%", name);
                 /*
                  * See if we already have marker
                  */
-                Marker m = markers.remove(id);
-                if (m == null) {
+                Marker marker = this.markers.remove(id);
+                if (marker == null) {
                     /*
                      * Not found? Need new one
                      */
-                    m = set.createMarker(id, label, wname, loc.getX(), loc.getY(), loc.getZ(), deficon, false);
+                    marker = set.createMarker(id, label, worldName, loc.getX(), loc.getY(), loc.getZ(), defaultIcon, false);
                 } else {
                     /*
                      * Else, update position if needed
                      */
-                    m.setLocation(wname, loc.getX(), loc.getY(), loc.getZ());
-                    m.setLabel(label);
-                    m.setMarkerIcon(deficon);
+                    marker.setLocation(worldName, loc.getX(), loc.getY(), loc.getZ());
+                    marker.setLabel(label);
+                    marker.setMarkerIcon(defaultIcon);
                 }
                 /*
                  * Build popup
                  */
-                String desc = formatInfoWindow(name, marks.get(name), m);
+                String desc = formatInfoWindow(name, markers.get(name), marker);
                 /*
                  * Set popup
                  */
-                m.setDescription(desc);
+                marker.setDescription(desc);
                 /*
                  * Add to new map
                  */
-                newmap.put(id, m);
+                newMap.put(id, marker);
             });
             /*
              * Now, review old map - anything left is gone
              */
-            markers.values().forEach(GenericMarker::deleteMarker);
+            this.markers.values().forEach(GenericMarker::deleteMarker);
             /*
              * And replace with new map
              */
-            markers.clear();
-            markers = newmap;
+            this.markers.clear();
+            this.markers = newMap;
         }
 
         /*
@@ -247,8 +263,8 @@ public class TARDISDynmapPlugin extends JavaPlugin {
 
         @EventHandler
         public void onPluginEnable(PluginEnableEvent event) {
-            Plugin p = event.getPlugin();
-            String name = p.getDescription().getName();
+            Plugin plugin = event.getPlugin();
+            String name = plugin.getDescription().getName();
             if (name.equals("dynmap") || name.equals("TARDIS")) {
                 if (dynmap.isEnabled() && tardis.isEnabled()) {
                     activate();
@@ -270,8 +286,8 @@ public class TARDISDynmapPlugin extends JavaPlugin {
         public Map<String, TARDISData> getMarkers() {
             HashMap<String, TARDISData> map = new HashMap<>();
             if (tardisApi != null) {
-                HashMap<String, Integer> tl = tardisApi.getTimelordMap();
-                tl.forEach((key, value) -> {
+                HashMap<String, Integer> timelordMap = tardisApi.getTimelordMap();
+                timelordMap.forEach((key, value) -> {
                     TARDISData data;
                     try {
                         data = tardisApi.getTARDISMapData(value);
