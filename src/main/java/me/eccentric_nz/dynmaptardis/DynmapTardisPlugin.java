@@ -16,9 +16,9 @@
  */
 package me.eccentric_nz.dynmaptardis;
 
-import me.eccentric_nz.tardis.TARDISPlugin;
-import me.eccentric_nz.tardis.api.TARDISAPI;
-import me.eccentric_nz.tardis.api.TARDISData;
+import me.eccentric_nz.tardis.TardisPlugin;
+import me.eccentric_nz.tardis.api.TardisApi;
+import me.eccentric_nz.tardis.api.TardisData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -41,8 +41,8 @@ public class DynmapTardisPlugin extends JavaPlugin {
     private Plugin dynmap;
     private DynmapAPI dynmapApi;
     private MarkerAPI markerApi;
-    private TARDISAPI tardisApi;
-    private TARDISPlugin tardis;
+    private TardisApi tardisApi;
+    private TardisPlugin tardis;
     private boolean reload = false;
     private boolean stop;
     private Layer tardisLayer;
@@ -79,7 +79,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
             Bukkit.getLogger().log(Level.WARNING, "Cannot find TARDIS!");
             return;
         }
-        tardis = (TARDISPlugin) p;
+        tardis = (TardisPlugin) p;
         getServer().getPluginManager().registerEvents(new TARDISServerListener(), this);
         /*
          * If both enabled, activate
@@ -144,7 +144,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 100L);
     }
 
-    private String formatInfoWindow(String who, TARDISData data, Marker m) {
+    private String formatInfoWindow(String who, TardisData data, Marker m) {
         String window = INFO;
         window = window.replace("%owner%", who);
         window = window.replace("%console%", data.getConsole());
@@ -203,7 +203,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
             /*
              * Build new map
              */
-            Map<String, TARDISData> markers = getMarkers();
+            Map<String, TardisData> markers = getMarkers();
             markers.keySet().forEach((name) -> {
                 Location loc = markers.get(name).getLocation();
                 String worldName = Objects.requireNonNull(loc.getWorld()).getName();
@@ -256,7 +256,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
         /*
          * Get current markers, by ID with location
          */
-        public abstract Map<String, TARDISData> getMarkers();
+        public abstract Map<String, TardisData> getMarkers();
     }
 
     private class TARDISServerListener implements Listener {
@@ -283,12 +283,12 @@ public class DynmapTardisPlugin extends JavaPlugin {
          * Get current markers, by timelord with location
          */
         @Override
-        public Map<String, TARDISData> getMarkers() {
-            HashMap<String, TARDISData> map = new HashMap<>();
+        public Map<String, TardisData> getMarkers() {
+            HashMap<String, TardisData> map = new HashMap<>();
             if (tardisApi != null) {
                 HashMap<String, Integer> timelordMap = tardisApi.getTimelordMap();
                 timelordMap.forEach((key, value) -> {
-                    TARDISData data;
+                    TardisData data;
                     try {
                         data = tardisApi.getTARDISMapData(value);
                         if (data.getLocation() != null) {
