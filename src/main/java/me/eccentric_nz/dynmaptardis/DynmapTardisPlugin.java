@@ -58,11 +58,11 @@ public class DynmapTardisPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        PluginManager pm = getServer().getPluginManager();
+        PluginManager pluginManager = getServer().getPluginManager();
         /*
          * Get dynmap
          */
-        dynmap = pm.getPlugin("dynmap");
+        dynmap = pluginManager.getPlugin("dynmap");
         if (dynmap == null) {
             Bukkit.getLogger().log(Level.WARNING, "Cannot find dynmap!");
             return;
@@ -74,17 +74,17 @@ public class DynmapTardisPlugin extends JavaPlugin {
         /*
          * Get tardis
          */
-        Plugin p = pm.getPlugin("TARDIS");
-        if (p == null) {
+        Plugin tardis = pluginManager.getPlugin("TARDIS");
+        if (tardis == null) {
             Bukkit.getLogger().log(Level.WARNING, "Cannot find TARDIS!");
             return;
         }
-        tardis = (TardisPlugin) p;
-        getServer().getPluginManager().registerEvents(new TARDISServerListener(), this);
+        this.tardis = (TardisPlugin) tardis;
+        getServer().getPluginManager().registerEvents(new TardisServerListener(), this);
         /*
          * If both enabled, activate
          */
-        if (dynmap.isEnabled() && tardis.isEnabled()) {
+        if (dynmap.isEnabled() && this.tardis.isEnabled()) {
             activate();
         }
     }
@@ -99,9 +99,9 @@ public class DynmapTardisPlugin extends JavaPlugin {
             return;
         }
         /*
-         * Now, get tardis API
+         * Now, get TARDIS API
          */
-        tardisApi = tardis.getTardisAPI();
+        tardisApi = tardis.getTardisApi();
 
         /*
          * If not found, signal disabled
@@ -124,17 +124,16 @@ public class DynmapTardisPlugin extends JavaPlugin {
             reload = true;
         }
         /*
-         * Now, add marker set for TardisAPI
+         * Now, add marker set for TardisApi
          */
         if (tardisApi != null) {
-            tardisLayer = new TARDISLayer();
+            tardisLayer = new TardisLayer();
         }
         /*
          * Set up update job - based on period
          */
         stop = false;
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 5 * 20);
-        //Bukkit.getLogger().log(Level.INFO, "version " + this.getDescription().getVersion() + " is activated");
     }
 
     private void updateMarkers() {
@@ -144,20 +143,20 @@ public class DynmapTardisPlugin extends JavaPlugin {
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 100L);
     }
 
-    private String formatInfoWindow(String who, TardisData data, Marker m) {
+    private String formatInfoWindow(String who, TardisData tardisData) {
         String window = INFO;
         window = window.replace("%owner%", who);
-        window = window.replace("%console%", data.getConsole());
-        window = window.replace("%chameleon%", data.getChameleon());
-        String l = "x: " + data.getLocation().getBlockX() + ", y: " + data.getLocation().getBlockY() + ", z: " + data.getLocation().getBlockZ();
-        window = window.replace("%location%", l);
-        window = window.replace("%powered%", data.getPowered());
-        window = window.replace("%door%", data.getDoor());
-        window = window.replace("%siege%", data.getSiege());
+        window = window.replace("%console%", tardisData.getConsole());
+        window = window.replace("%chameleon%", tardisData.getChameleon());
+        String location = "x: " + tardisData.getLocation().getBlockX() + ", y: " + tardisData.getLocation().getBlockY() + ", z: " + tardisData.getLocation().getBlockZ();
+        window = window.replace("%location%", location);
+        window = window.replace("%powered%", tardisData.getPowered());
+        window = window.replace("%door%", tardisData.getDoor());
+        window = window.replace("%siege%", tardisData.getSiege());
         StringBuilder travellers = new StringBuilder();
-        if (data.getOccupants().size() > 0) {
-            for (String o : data.getOccupants()) {
-                travellers.append(o).append("<br />");
+        if (tardisData.getOccupants().size() > 0) {
+            for (String occupant : tardisData.getOccupants()) {
+                travellers.append(occupant).append("<br />");
             }
         } else {
             travellers = new StringBuilder("Empty");
@@ -181,7 +180,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
                 set.setMarkerSetLabel("TARDISes");
             }
             if (set == null) {
-                Bukkit.getLogger().log(Level.WARNING, "Error creating tardis marker set");
+                Bukkit.getLogger().log(Level.WARNING, "Error creating TARDIS marker set");
                 return;
             }
             set.setLayerPriority(0);
@@ -205,8 +204,8 @@ public class DynmapTardisPlugin extends JavaPlugin {
              */
             Map<String, TardisData> markers = getMarkers();
             markers.keySet().forEach((name) -> {
-                Location loc = markers.get(name).getLocation();
-                String worldName = Objects.requireNonNull(loc.getWorld()).getName();
+                Location location = markers.get(name).getLocation();
+                String worldName = Objects.requireNonNull(location.getWorld()).getName();
                 /*
                  * Get location
                  */
@@ -220,23 +219,23 @@ public class DynmapTardisPlugin extends JavaPlugin {
                     /*
                      * Not found? Need new one
                      */
-                    marker = set.createMarker(id, label, worldName, loc.getX(), loc.getY(), loc.getZ(), defaultIcon, false);
+                    marker = set.createMarker(id, label, worldName, location.getX(), location.getY(), location.getZ(), defaultIcon, false);
                 } else {
                     /*
                      * Else, update position if needed
                      */
-                    marker.setLocation(worldName, loc.getX(), loc.getY(), loc.getZ());
+                    marker.setLocation(worldName, location.getX(), location.getY(), location.getZ());
                     marker.setLabel(label);
                     marker.setMarkerIcon(defaultIcon);
                 }
                 /*
                  * Build popup
                  */
-                String desc = formatInfoWindow(name, markers.get(name), marker);
+                String description = formatInfoWindow(name, markers.get(name));
                 /*
                  * Set popup
                  */
-                marker.setDescription(desc);
+                marker.setDescription(description);
                 /*
                  * Add to new map
                  */
@@ -259,7 +258,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
         public abstract Map<String, TardisData> getMarkers();
     }
 
-    private class TARDISServerListener implements Listener {
+    private class TardisServerListener implements Listener {
 
         @EventHandler
         public void onPluginEnable(PluginEnableEvent event) {
@@ -273,26 +272,26 @@ public class DynmapTardisPlugin extends JavaPlugin {
         }
     }
 
-    private class TARDISLayer extends Layer {
+    private class TardisLayer extends Layer {
 
-        public TARDISLayer() {
+        public TardisLayer() {
             super();
         }
 
         /*
-         * Get current markers, by timelord with location
+         * Get current markers, by Time Lord with location
          */
         @Override
         public Map<String, TardisData> getMarkers() {
             HashMap<String, TardisData> map = new HashMap<>();
             if (tardisApi != null) {
-                HashMap<String, Integer> timelordMap = tardisApi.getTimelordMap();
-                timelordMap.forEach((key, value) -> {
-                    TardisData data;
+                HashMap<String, Integer> timeLordMap = tardisApi.getTimeLordMap();
+                timeLordMap.forEach((key, value) -> {
+                    TardisData tardisData;
                     try {
-                        data = tardisApi.getTARDISMapData(value);
-                        if (data.getLocation() != null) {
-                            map.put(key, data);
+                        tardisData = tardisApi.getTardisMapData(value);
+                        if (tardisData.getLocation() != null) {
+                            map.put(key, tardisData);
                         }
                     } catch (Exception ignored) {
                     }
