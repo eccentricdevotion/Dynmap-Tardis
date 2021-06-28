@@ -19,6 +19,7 @@ package me.eccentric_nz.dynmaptardis;
 import me.eccentric_nz.tardis.TardisPlugin;
 import me.eccentric_nz.tardis.api.TardisApi;
 import me.eccentric_nz.tardis.api.TardisData;
+import me.eccentric_nz.tardis.files.TardisFileCopier;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
@@ -30,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.dynmap.DynmapAPI;
 import org.dynmap.markers.*;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -38,6 +40,7 @@ import java.util.logging.Level;
 public class DynmapTardisPlugin extends JavaPlugin {
 
     private static final String INFO = "<div class=\"regioninfo\"><div class=\"infowindow\"><span style=\"font-weight:bold;\">Time Lord:</span> %owner%<br/><span style=\"font-weight:bold;\">Console type:</span> %console%<br/><span style=\"font-weight:bold;\">Chameleon circuit:</span> %chameleon%<br/><span style=\"font-weight:bold;\">Location:</span> %location%<br/><span style=\"font-weight:bold;\">Door:</span> %door%<br/><span style=\"font-weight:bold;\">Powered on:</span> %powered%<br/><span style=\"font-weight:bold;\">Siege mode:</span> %siege%<br/><span style=\"font-weight:bold;\">Occupants:</span> %occupants%</div></div>";
+    private final DynmapTardisPlugin plugin;
     private Plugin dynmap;
     private DynmapAPI dynmapApi;
     private MarkerAPI markerApi;
@@ -46,6 +49,10 @@ public class DynmapTardisPlugin extends JavaPlugin {
     private boolean reload = false;
     private boolean stop;
     private Layer tardisLayer;
+
+    public DynmapTardisPlugin(DynmapTardisPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void onDisable() {
@@ -60,23 +67,23 @@ public class DynmapTardisPlugin extends JavaPlugin {
     public void onEnable() {
         PluginManager pluginManager = getServer().getPluginManager();
         /*
-         * Get dynmap
+         * Get Dynmap
          */
         dynmap = pluginManager.getPlugin("dynmap");
         if (dynmap == null) {
-            Bukkit.getLogger().log(Level.WARNING, "Cannot find dynmap!");
+            Bukkit.getLogger().log(Level.WARNING, "Can not find dynmap!");
             return;
         }
         /*
-         * Get dynmap API
+         * Get Dynmap API
          */
         dynmapApi = (DynmapAPI) dynmap;
         /*
-         * Get tardis
+         * Get TARDIS
          */
         Plugin tardis = pluginManager.getPlugin("TARDIS");
         if (tardis == null) {
-            Bukkit.getLogger().log(Level.WARNING, "Cannot find TARDIS!");
+            Bukkit.getLogger().log(Level.WARNING, "Can not find TARDIS!");
             return;
         }
         this.tardis = (TardisPlugin) tardis;
@@ -136,6 +143,15 @@ public class DynmapTardisPlugin extends JavaPlugin {
         getServer().getScheduler().scheduleSyncDelayedTask(this, new MarkerUpdate(), 5 * 20);
     }
 
+    private void checkIcon() {
+        String path = "plugins/dynmap/web/tiles/_markers_/tardis.png";
+        File icon = new File(path);
+        if (!icon.exists()) {
+            TardisFileCopier.copy(path, plugin.getResource("tardis.png"), true);
+            plugin.getServer().dispatchCommand(tardis.getConsole(), "dmarker addicon id:tardis newlabel:tardis file:plugins/dynmap/web/tiles/_markers_/tardis.png");
+        }
+    }
+
     private void updateMarkers() {
         if (tardisApi != null) {
             tardisLayer.updateMarkerSet();
@@ -172,7 +188,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
         String labelFormat;
         Map<String, Marker> markers = new HashMap<>();
 
-        public Layer() {
+        Layer() {
             set = markerApi.getMarkerSet("tardis");
             if (set == null) {
                 set = markerApi.createMarkerSet("tardis", "TARDISes", null, false);
@@ -274,7 +290,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
 
     private class TardisLayer extends Layer {
 
-        public TardisLayer() {
+        TardisLayer() {
             super();
         }
 
