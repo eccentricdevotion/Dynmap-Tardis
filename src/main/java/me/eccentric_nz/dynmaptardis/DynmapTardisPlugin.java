@@ -106,7 +106,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
             return;
         }
         /*
-         * Now, get TARDIS API
+         * Get TardisApi
          */
         tardisApi = tardis.getTardisApi();
 
