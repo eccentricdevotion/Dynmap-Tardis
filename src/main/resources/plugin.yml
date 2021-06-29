@@ -2,8 +2,7 @@ authors: [eccentric_nz]
 main: me.eccentric_nz.dynmaptardis.DynmapTardisPlugin
 name: Dynmap-TARDIS
 description: A Dynmap add-on to show TARDIS locations
-version: maven-version-number
-build-number: maven-build-number
+version: ${project.version}
 api-version: 1.17
 website: http://tardisjenkins.duckdns.org:8080/job/Dynmap-TARDIS/
 dev-url: http://github.com/eccentricdevotion/Dynmap-Tardis/

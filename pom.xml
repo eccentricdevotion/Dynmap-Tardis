@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.eccentric_nz.dynmaptardis</groupId>
     <artifactId>Dynmap-TARDIS</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Dynmap-TARDIS</name>
     <description>A Dynmap add-on to display TARDIS locations on Spigot/Paper servers</description>
@@ -52,55 +52,6 @@
             <url>http://repo.mikeprimm.com/</url>
         </repository>
     </repositories>
-    <profiles>
-        <!-- Profiles are used to detect whether this is a local or Jenkins build and adjust the build number accordingly -->
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <!-- Set the build number to the date and time of the build -->
-                <project.build.number>${timestamp}</project.build.number>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>buildnumber-maven-plugin</artifactId>
-                        <version>1.4</version>
-                        <configuration>
-                            <revisionOnScmFailure>no.scm.config.in.pom</revisionOnScmFailure>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>create-timestamp-id</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>create-timestamp</goal>
-                                </goals>
-                                <configuration>
-                                    <timestampFormat>yyyy.MM.dd-HH.mm.ss</timestampFormat>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jenkins</id>
-            <activation>
-                <property>
-                    <name>env.BUILD_NUMBER</name>
-                </property>
-            </activation>
-            <properties>
-                <!-- Get the build number from Jenkins -->
-                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
-            </properties>
-        </profile>
-    </profiles>
     <build>
         <directory>${project.basedir}/target</directory>
         <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
@@ -109,7 +60,12 @@
         <testOutputDirectory>${project.basedir}/target/test-classes</testOutputDirectory>
         <resources>
             <resource>
+                <!-- Use POM properties in plugin.yml -->
                 <directory>${project.basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
             </resource>
         </resources>
         <testResources>
@@ -160,33 +116,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <!-- Insert the version and build numbers into plugin.yml -->
-                <groupId>com.google.code.maven-replacer-plugin</groupId>
-                <artifactId>replacer</artifactId>
-                <version>1.5.3</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>replace</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <file>target/classes/plugin.yml</file>
-                    <replacements>
-                        <replacement>
-                            <token>maven-version-number</token>
-                            <value>${project.version}-${project.build.number}</value>
-                        </replacement>
-                        <replacement>
-                            <token>maven-build-number</token>
-                            <value>${project.build.number}</value>
-                        </replacement>
-                    </replacements>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -197,6 +126,7 @@
             <version>2.8.7</version>
             <type>jar</type>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <!-- Spigot-API -->
@@ -205,22 +135,25 @@
             <version>1.17-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <!-- TARDIS -->
             <groupId>me.eccentric_nz.tardis</groupId>
             <artifactId>TARDIS</artifactId>
-            <version>4.7.2</version>
+            <version>4.7.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <!-- TARDISChunkGenerator -->
             <groupId>me.eccentric_nz.tardischunkgenerator</groupId>
             <artifactId>TARDISChunkGenerator</artifactId>
-            <version>4.7.2</version>
+            <version>4.7.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <!-- Dynmap-API -->
@@ -229,6 +162,7 @@
             <version>3.2-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
