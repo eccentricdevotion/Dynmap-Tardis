@@ -34,7 +34,6 @@ import org.dynmap.markers.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Level;
 
 public class DynmapTardisPlugin extends JavaPlugin {
@@ -221,7 +220,7 @@ public class DynmapTardisPlugin extends JavaPlugin {
             Map<String, TARDISData> markers = getMarkers();
             markers.keySet().forEach((name) -> {
                 Location location = markers.get(name).getLocation();
-                String worldName = Objects.requireNonNull(location.getWorld()).getName();
+                String worldName = location.getWorld().getName();
                 /*
                  * Get location
                  */
